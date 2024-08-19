@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+.sidebar {
+  position: relative;
+  padding: 0 20px;
+  height: 99dvh;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.2);
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 6px;
+  margin: 10px;
+  margin-bottom: 0;
+}
+.main-menu-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+}
+.menu-item {
+  padding: 16px 12px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease-in-out;
+  background: none;
+  color: var(--light-color);
+  display: grid;
+  grid-template-columns: 20px 1fr max-content;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  align-items: center;
+  width: 100%;
+  border-radius: 6px;
+  text-align: left;
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background: var(--dark-color);
+    color: var(--primary-color);
+    outline: none;
+    .svg-profile {
+      color: var(--primary-color);
+    }
+  }
+}
+.svg-profile {
+  width: 13px;
+  height: 13px;
+}
+.to-subscribers {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.to-subscribers-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+.to-subscribers-link:focus,
+.to-subscribers-link:hover,
+.to-subscribers-link:focus-visible {
+  outline: none;
+  border: none;
+}
+
+.to-subscribers-link:hover .to-subscribers-image,
+.to-subscribers-link:focus .to-subscribers-image {
+  transform: translateX(-10px);
+}
+.sidebar-footer {
+  position: absolute;
+  bottom: 30px;
+  background: var(--dark-color);
+  border-radius: 6px;
+  padding: 8px 16px;
+  display: grid;
+  grid-template-columns: 64px 1fr 16px;
+  align-items: center;
+  gap: 20px;
+}
+.sidebar-footer__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+.to-subscribers-image {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+  transition: transform 0.3s ease-in-out;
+}
+
+.settings-btn-svg {
+  width: 13px;
+  height: 13px;
+  color: var(--primary-color);
+}

@@ -1,0 +1,15 @@
+.profile-header {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  margin-top: 20px;
+  gap: 24px;
+  align-items: center;
+}
+.profile-header__image {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+}
+.username-and-name {
+  text-align: left;
+}

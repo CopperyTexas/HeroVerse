@@ -1,0 +1,16 @@
+<div *ngIf="profile() as profile; else noProfile">
+  <div class="profile-header">
+    <img
+      [src]="profile.avatar || '/assets/images/404.svg'"
+      alt=""
+      class="profile-header__image"
+    />
+    <div class="username-and-name">
+      <h1 class="h4">{{ profile.name }}</h1>
+      <span class="regular">{{ profile.username }}</span>
+    </div>
+  </div>
+</div>
+<ng-template #noProfile>
+  <div>Loading profile ...</div>
+</ng-template>

@@ -1,0 +1,25 @@
+.profile-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 4cqmax;
+}
+.settings-btn {
+  width: 190px;
+  background-color: var(--dark-color);
+  outline: none;
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+}
+
+.settings-btn-svg {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-color);
+}

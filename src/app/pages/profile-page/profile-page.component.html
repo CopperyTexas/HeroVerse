@@ -1,0 +1,10 @@
+@if(profile$ |async; as profile){
+<header class="profile-page__header">
+  <app-profile-header [profile]="profile"></app-profile-header>
+  <a routerLink="['settings']" class="settings-btn"
+    >Edit
+    <svg icon="settings" class="settings-btn-svg"></svg>
+  </a>
+</header>
+
+}

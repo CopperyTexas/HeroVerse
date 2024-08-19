@@ -1,1 +1,114 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import url("./reset.scss");
+
+:root {
+  --dark-color: #1f2937;
+  --light-color: #f5f5f5;
+  --primary-color: #92e3a9;
+}
+* {
+  font-family: "Comic Neue";
+  box-sizing: border-box;
+}
+.mb16 {
+  margin-bottom: 16px;
+}
+.mb32 {
+  margin-bottom: 32px;
+}
+.mb60 {
+  margin-bottom: 60px;
+}
+.ml16 {
+  margin-left: 16px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+body {
+  color: var(--light-color);
+  background: linear-gradient(45deg, var(--dark-color), var(--primary-color));
+  background-size: contain;
+  height: 100dvh;
+  margin: 0;
+}
+
+.skill-tag {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 2px solid var(--light-color);
+  display: inline;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.h6 {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 800;
+}
+.subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.h1 {
+  font-family: "Comic Neue";
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 800;
+}
+.h4 {
+  font-family: "Comic Neue";
+  font-size: 24px;
+  font-weight: 800;
+}
+.regular {
+  font-size: 14px;
+  font-weight: 400px;
+}
+.medium-text {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.btn {
+  border: none;
+  background: var(--dark-color);
+  color: var(--light-color);
+  padding: 10px 20px;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--light-color);
+  cursor: pointer;
+  text-align: center;
+  width: 50%;
+  box-shadow: 4px 4px 4px rgba(248, 248, 248, 0.8);
+  transition: 0.4s ease;
+  &:hover {
+    background: var(--primary-color);
+    color: var(--dark-color);
+    border: 2px solid var(--dark-color);
+    box-shadow: 4px 4px 4px rgba(34, 33, 33, 0.8);
+  }
+  &:focus {
+    background: var(--primary-color);
+    color: var(--dark-color);
+    border: 2px solid var(--dark-color);
+    box-shadow: 4px 4px 4px rgba(34, 33, 33, 0.8);
+    outline: none;
+  }
+  &:active {
+    scale: 0.8;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="profile-card" *ngIf="profile; else loading">
+  <div class="avatar">
+    <img
+      [src]="profile.avatar ? profile.avatar : '/assets/images/404.svg'"
+      alt="avatar"
+      class="profile-card__avatar"
+    />
+    <div class="profile-card__name">
+      <strong class="h6">{{ profile.name }}</strong>
+      <span class="subtitle">{{ profile.nickname }}</span>
+    </div>
+  </div>
+  <div class="profile-card__description">
+    {{ profile.description }}
+  </div>
+  <div class="profile-card__tags">
+    <div class="skill-tag" *ngFor="let power of profile.power">{{ power }}</div>
+  </div>
+  <div class="profile-card__action-btns">
+    <button class="btn">Subscribe</button>
+  </div>
+</div>
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>

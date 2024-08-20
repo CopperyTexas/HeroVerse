@@ -103,3 +103,13 @@
   height: 13px;
   color: var(--primary-color);
 }
+.settings-btn {
+  &:hover,
+  &:focus {
+    outline: none;
+    .settings-btn-svg {
+      rotate: 360deg;
+      transition: rotate 1s ease-in-out;
+    }
+  }
+}

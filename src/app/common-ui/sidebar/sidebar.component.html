@@ -32,7 +32,7 @@
       />
       <strong>{{ user.name }} </strong>
     </ng-container>
-    <a routerLink="['settings']" class="settings-btn">
+    <a [routerLink]="['/settings']" class="settings-btn">
       <svg icon="settings" class="settings-btn-svg"></svg>
     </a>
   </footer>

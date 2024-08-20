@@ -21,23 +21,7 @@
   font-size: 18px;
   display: block;
 }
-.hv-input {
-  width: 70%;
-  display: block;
-  margin-top: 8px;
-  border: 2px solid var(--light-color);
-  border-radius: 4px;
-  padding: 12px 20px;
-  background: var(--dark-color);
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--light-color);
-  transition: 0.4s ease;
-  &:focus {
-    outline: none;
-    border: 2px solid var(--primary-color);
-  }
-}
+
 .btn {
   border: none;
   background: var(--dark-color);

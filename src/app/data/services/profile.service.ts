@@ -1,44 +1,41 @@
-// Импортируем HttpClient для выполнения HTTP-запросов
 import { HttpClient } from '@angular/common/http';
-
-// Импортируем Injectable для создания сервиса и inject для инъекции зависимостей
 import { Injectable, inject } from '@angular/core';
-
-// Импортируем Observable из RxJS для обработки асинхронных операций
 import { Observable, map, tap } from 'rxjs';
-
-// Импортируем объект environment для доступа к переменным окружения
 import { environment } from '../../../environments/environment';
-
-// Импортируем интерфейс Profile для типизации данных профилей
 import { Pageble } from '../interfaces/pageble.interface';
 import { Profile } from '../interfaces/profile.interface';
-// Декоратор Injectable указывает, что этот класс можно инжектировать как зависимость
+
 @Injectable({
-  providedIn: 'root', // Этот сервис будет доступен на уровне корневого модуля
+  providedIn: 'root',
 })
 export class ProfileService {
-  // Инжектируем HttpClient для выполнения HTTP-запросов
   http = inject(HttpClient);
-  // Получаем базовый URL API из переменных окружения
   baseApiUrl = environment.apiUrl;
-  // Конструктор класса (в данном случае пустой)
-  constructor() {}
+
   me: Profile | null = null;
-  // Метод для получения списка тестовых аккаунтов
-  // Возвращает Observable, который эмитирует массив объектов типа Profile
+
+  constructor() {
+    // Вызов getMe в конструкторе может быть, но убедитесь, что это не создаёт проблем с синхронизацией
+    this.getMe().subscribe();
+  }
+
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/users`);
   }
-  getAccount(id: string) {
+
+  getAccount(id: string): Observable<Profile> {
     return this.http.get<Profile>(`${this.baseApiUrl}/account/${id}`);
   }
+
   getMe(): Observable<Profile> {
-    return this.http
-      .get<Profile>(`${this.baseApiUrl}/account/me`)
-      .pipe(tap((profile) => (this.me = profile)));
+    return this.http.get<Profile>(`${this.baseApiUrl}/account/me`).pipe(
+      tap((profile) => {
+        this.me = profile;
+      })
+    );
   }
-  getSubscribersShortList(subsAmount = 3) {
+
+  getSubscribersShortList(subsAmount = 3): Observable<Profile[]> {
     return this.http
       .get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`)
       .pipe(map((res) => res.items.slice(0, subsAmount)));

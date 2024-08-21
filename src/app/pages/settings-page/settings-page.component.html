@@ -1,6 +1,28 @@
 <app-profile-header></app-profile-header>
-<form action="" class="profile-form">
+<form action="" class="profile-form" [formGroup]="form">
   <div class="two-columns">
-    <label for="name">Name</label>
+    <label class="hv-form-label">
+      <span class="hv-form-label__text">Name</span>
+      <input type="text" class="hv-form-input" formControlName="firstName" />
+    </label>
+    <label class="hv-form-label">
+      <span class="hv-form-label__text">Lastname</span>
+      <input type="text" class="hv-form-input" formControlName="lastName" />
+    </label>
   </div>
+  <label class="hv-form-label">
+    <span class="hv-form-label__text">Username</span>
+    <input type="text" class="hv-form-input" formControlName="username" />
+  </label>
+  <label class="hv-form-label">
+    <span class="hv-form-label__text">About me</span>
+    <textarea
+      formControlName="description"
+      class="hv-form-input hv-textarea"
+    ></textarea>
+  </label>
+  <label class="hv-form-label">
+    <span class="hv-form-label__text">Power</span>
+    <input type="text" class="hv-form-input" formControlName="power" />
+  </label>
 </form>

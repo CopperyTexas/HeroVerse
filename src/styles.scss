@@ -5,6 +5,7 @@
   --dark-color: #1f2937;
   --light-color: #f5f5f5;
   --primary-color: #92e3a9;
+  --light-transparent-color: rgba(255, 255, 255, 0.75);
 }
 * {
   font-family: "Comic Neue";
@@ -134,5 +135,25 @@ body {
   flex-direction: column;
   gap: 16px;
 }
+.hv-form-label__text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--light-transparent-color);
+}
 .hv-form-input {
+  font-size: 14px;
+  font-weight: 400;
+  border: none;
+  border-bottom: 1px solid var(--light-color);
+  height: 32px;
+  background: none;
+  color: var(--light-color);
+  border-radius: 4px 4px 0 0;
+  &:focus-visible {
+    outline: 1px solid var(--light-color);
+  }
+}
+.hv-textarea {
+  height: 84px;
+  resize: none;
 }

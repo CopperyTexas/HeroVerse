@@ -30,10 +30,24 @@ export class SidebarComponent {
   ];
   // Метод trackById для *ngFor
   trackById(index: number, profile: Profile): number {
-    return profile.id;
+    return profile._id;
   }
   ngOnInit() {
     console.log('ngOnInit');
     firstValueFrom(this.profileService.getMe());
+    this.subscribers$.subscribe({
+      next: (data) => console.log('Loaded subscribers:', data),
+      error: (err) => console.error('Error loading subscribers:', err),
+    });
+    this.loadUserData();
+  }
+
+  async loadUserData() {
+    try {
+      const userProfile = await firstValueFrom(this.profileService.getMe());
+      console.log('User profile:', userProfile);
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
   }
 }

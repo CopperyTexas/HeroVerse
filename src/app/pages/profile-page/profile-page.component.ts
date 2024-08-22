@@ -33,4 +33,7 @@ export class ProfilePageComponent {
       return this.profileService.getAccount(id);
     })
   );
+  trackById(index: number, subscriber: any): string {
+    return subscriber._id; // Используйте уникальный идентификатор
+  }
 }

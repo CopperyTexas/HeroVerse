@@ -59,12 +59,36 @@ export class SettingsPageComponent {
     });
   }
 
-  onSave() {
+  async onSave() {
+    console.log('Button clicked'); // Диагностика нажатия кнопки
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
 
+    console.log('Form valid:', this.form.valid); // Проверка валидности формы
+    console.log('Form value:', this.form.value); // Проверка данных формы
+
     if (this.form.invalid) return;
-    //@ts-ignore
-    firstValueFrom(this.profileService(this.form.value));
+
+    try {
+      const firstName = this.form.value.firstName || '';
+      const lastName = this.form.value.lastName || '';
+      const description = this.form.value.description || '';
+      const powerString = this.form.value.power || '';
+
+      const updatedProfile = {
+        name: `${firstName} ${lastName}`,
+        description: description,
+        power: powerString.split(',').map((p) => p.trim()),
+      };
+
+      console.log('Отправка профиля:', updatedProfile); // Проверка данных перед отправкой
+
+      const result = await firstValueFrom(
+        this.profileService.patchProfile(updatedProfile)
+      );
+      console.log('Profile updated successfully:', result);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   }
 }

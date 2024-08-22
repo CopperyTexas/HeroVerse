@@ -12,14 +12,14 @@
   <div class="subscribers-wrapper">
     <h3 class="h6 mb16">Subscribers</h3>
     <div class="subscriber-list">
-      @for(subscriber of subscribers$ | async; track subscriber.id){
-      <a
-        class="subscriber-avatar-btn"
-        [routerLink]="['/profile', subscriber.id]"
-      >
-        <img [src]="subscriber.avatar" alt="" class="subscriber-avatar-img" />
-      </a>
-      }
+      <div *ngFor="let subscriber of subscribers$ | async; trackBy: trackById">
+        <a
+          class="subscriber-avatar-btn"
+          [routerLink]="['/profile', subscriber._id]"
+        >
+          <img [src]="subscriber.avatar" alt="" class="subscriber-avatar-img" />
+        </a>
+      </div>
       <a class="to-subscribers-search" [routerLink]="['/search']"> </a>
     </div>
     <h3 class="h6 mb16">Power</h3>

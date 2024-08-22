@@ -34,6 +34,6 @@ export class SearchPageComponent implements OnInit {
 
   // Метод для отслеживания идентификаторов профилей в *ngFor
   trackById(index: number, profile: Profile): number {
-    return profile.id; // Возвращаем идентификатор профиля для отслеживания изменений
+    return profile._id; // Возвращаем идентификатор профиля для отслеживания изменений
   }
 }

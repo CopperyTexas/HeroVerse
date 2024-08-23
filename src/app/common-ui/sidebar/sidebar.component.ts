@@ -24,7 +24,7 @@ export class SidebarComponent {
   subscribers$ = this.profileService.getSubscribersShortList();
   me = this.profileService.getMe();
   menuItems = [
-    { label: 'Home page', icon: 'home', link: '' },
+    { label: 'Home page', icon: 'home', link: 'profile/me' },
     { label: 'Chats', icon: 'message', link: 'chats' },
     { label: 'Search', icon: 'search', link: 'search' },
   ];

@@ -16,12 +16,21 @@
       <input type="text" class="hv-form-input" formControlName="username" />
     </label>
     <label class="hv-form-label">
+      <span class="hv-form-label__text">Nickname</span>
+      <input type="text" class="hv-form-input" formControlName="nickname" />
+    </label>
+    <label class="hv-form-label">
       <span class="hv-form-label__text">About me</span>
       <textarea
         formControlName="description"
         class="hv-form-input hv-textarea"
       ></textarea>
     </label>
+    <label class="hv-form-label">
+      <span class="hv-form-label__text">Avatar</span>
+      <app-avatar-upload></app-avatar-upload>
+    </label>
+
     <label class="hv-form-label">
       <span class="hv-form-label__text">Power</span>
       <input type="text" class="hv-form-input" formControlName="power" />

@@ -36,6 +36,7 @@
   border-radius: 6px;
   text-align: left;
   text-decoration: none;
+  &.active,
   &:hover,
   &:focus,
   &:focus-visible {

@@ -29,8 +29,8 @@ export class SidebarComponent {
     { label: 'Search', icon: 'search', link: 'search' },
   ];
   // Метод trackById для *ngFor
-  trackById(index: number, profile: Profile): number {
-    return profile._id;
+  trackById(index: number, profile: Profile): string {
+    return profile._id; // Возвращаем строковый идентификатор профиля для отслеживания изменений
   }
   ngOnInit() {
     console.log('ngOnInit');

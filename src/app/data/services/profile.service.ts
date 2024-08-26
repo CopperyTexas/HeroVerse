@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -50,5 +50,24 @@ export class ProfileService {
       `${this.baseApiUrl}/account/upload_image`,
       fd
     );
+  }
+  private baseUrl = 'http://localhost:3000/api/account'; // Добавьте путь /profiles к вашему базовому URL
+
+  // Метод для фильтрации профилей
+  filterProfiles(filters: {
+    nickname: string;
+    power: string;
+  }): Observable<{ items: Profile[] }> {
+    let params = new HttpParams();
+
+    if (filters.nickname) {
+      params = params.set('nickname', filters.nickname);
+    }
+
+    if (filters.power) {
+      params = params.set('power', filters.power); // Устанавливаем параметр для фильтрации по power
+    }
+
+    return this.http.get<{ items: Profile[] }>(this.baseUrl, { params });
   }
 }

@@ -7,6 +7,7 @@
   padding: 24px;
 }
 .profile-form {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
   gap: 20px;
 }

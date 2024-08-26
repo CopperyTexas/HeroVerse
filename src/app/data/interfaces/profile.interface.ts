@@ -1,5 +1,5 @@
 export interface Profile {
-  _id: number;
+  _id: string;
   username: string;
   password: string | number;
   name: string;

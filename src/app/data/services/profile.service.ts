@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Pageble } from '../interfaces/pageble.interface';
@@ -13,7 +13,7 @@ export class ProfileService {
   baseApiUrl = environment.apiUrl;
 
   me: Profile | null = null;
-
+  filteredProfiles = signal<Profile[]>([]);
   constructor() {
     // Вызов getMe в конструкторе может быть, но убедитесь, что это не создаёт проблем с синхронизацией
     this.getMe().subscribe();
@@ -51,7 +51,6 @@ export class ProfileService {
       fd
     );
   }
-  private baseUrl = 'http://localhost:3000/api/account'; // Добавьте путь /profiles к вашему базовому URL
 
   // Метод для фильтрации профилей
   filterProfiles(filters: {
@@ -68,6 +67,10 @@ export class ProfileService {
       params = params.set('power', filters.power); // Устанавливаем параметр для фильтрации по power
     }
 
-    return this.http.get<{ items: Profile[] }>(this.baseUrl, { params });
+    return this.http
+      .get<{ items: Profile[] }>(`${this.baseApiUrl}/profiles`, {
+        params,
+      })
+      .pipe(tap((res) => this.filteredProfiles.set(res.items)));
   }
 }

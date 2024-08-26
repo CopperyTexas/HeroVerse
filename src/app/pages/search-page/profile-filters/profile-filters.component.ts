@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { SvgIconComponent } from '../../../common-ui/svg-icon/svg-icon.component';
@@ -13,6 +13,10 @@ import { ProfileService } from '../../../data/services/profile.service';
   styleUrls: ['./profile-filters.component.scss'], // исправлено с `styleUrl` на `styleUrls`
 })
 export class ProfileFiltersComponent {
+  @Output() filtersChange = new EventEmitter<{
+    nickname: string;
+    power: string;
+  }>();
   searchForm: FormGroup;
   profiles: Profile[] = [];
 

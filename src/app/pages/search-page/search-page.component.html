@@ -1,8 +1,14 @@
-<app-profile-filters></app-profile-filters>
+<app-profile-filters
+  (filtersChange)="updateFilters($event)"
+></app-profile-filters>
 
-<div class="profile-card__wrapper">
+<div *ngIf="profiles().length > 0" class="profile-card__wrapper">
   <app-profile-card
-    *ngFor="let profile of profiles; trackBy: trackById"
+    *ngFor="let profile of profiles(); trackBy: trackById"
     [profile]="profile"
   ></app-profile-card>
+</div>
+
+<div *ngIf="profiles().length === 0">
+  <p>No profiles found. Please enter search criteria.</p>
 </div>

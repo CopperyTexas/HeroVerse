@@ -10,6 +10,19 @@
       <span class="regular">{{ profile.nickname }}</span>
     </div>
   </div>
+  <div class="pofile-power-wrapper">
+    <h2 class="h4">My powers</h2>
+    <div class="profile-power">
+      @for(power of profile.power; track power){
+      <span class="profile-power-item">{{ power }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="profile-description">
+    <h2 class="h4">About me</h2>
+    <p class="regular">{{ profile.description }}</p>
+  </div>
 </div>
 <ng-template #noProfile>
   <div>Loading profile ...</div>

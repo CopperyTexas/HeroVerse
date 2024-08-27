@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Pageble } from '../interfaces/pageble.interface';
 import { Profile } from '../interfaces/profile.interface';
@@ -64,13 +64,36 @@ export class ProfileService {
     }
 
     if (filters.power) {
-      params = params.set('power', filters.power); // Устанавливаем параметр для фильтрации по power
+      params = params.set('power', filters.power);
     }
 
-    return this.http
-      .get<{ items: Profile[] }>(`${this.baseApiUrl}/profiles`, {
-        params,
+    return this.getMe().pipe(
+      switchMap(() =>
+        this.http.get<{ items: Profile[] }>(`${this.baseApiUrl}/profiles`, {
+          params,
+        })
+      ),
+      tap((res) => {
+        console.log('Current user profile (me):', this.me);
+        console.log('Subscribers:', this.me?.subscribers);
+        console.log('Profiles before filtering:', res.items);
+
+        const filtered = res.items.filter((profile) => {
+          return (
+            profile._id !== this.me?._id &&
+            !this.me?.subscribers?.some((sub) => sub._id === profile._id)
+          );
+        });
+
+        console.log('Profiles after filtering:', filtered);
+
+        this.filteredProfiles.set(filtered);
       })
-      .pipe(tap((res) => this.filteredProfiles.set(res.items)));
+    );
+  }
+  subscribeToProfile(profileId: string): Observable<any> {
+    return this.http.post(`${this.baseApiUrl}/account/subscribe`, {
+      profileId,
+    });
   }
 }

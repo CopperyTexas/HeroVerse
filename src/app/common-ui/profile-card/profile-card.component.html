@@ -17,7 +17,15 @@
     <div class="skill-tag" *ngFor="let power of profile.power">{{ power }}</div>
   </div>
   <div class="profile-card__action-btns">
-    <button class="btn">Subscribe</button>
+    <button class="btn" (click)="subscribe()" [disabled]="isSubscribed">
+      <ng-container
+        *ngIf="isSubscribed; else subscribeText"
+        class="btn-subscribe"
+      >
+        ✔️
+      </ng-container>
+      <ng-template #subscribeText> Subscribe </ng-template>
+    </button>
   </div>
 </div>
 <ng-template #loading>

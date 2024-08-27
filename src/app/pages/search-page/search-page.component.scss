@@ -14,3 +14,7 @@
   width: 50%;
   height: 50%;
 }
+.profile-card__wrapper {
+  max-height: 90vh;
+  overflow-y: auto;
+}

@@ -8,5 +8,6 @@ export interface Profile {
   power: string[];
   avatar: string;
   subscriptionsAmount: number;
+  subscribers: { _id: string; [key: string]: any }[];
   isActive: boolean;
 }

@@ -4,6 +4,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { SvgIconComponent } from '../../../common-ui/svg-icon/svg-icon.component';
 import { Profile } from '../../../data/interfaces/profile.interface';
 import { ProfileService } from '../../../data/services/profile.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-profile-filters',
@@ -44,6 +45,6 @@ export class ProfileFiltersComponent {
           // Обработка ошибки
           console.error('Error filtering profiles:', err);
         },
-      });
+      }),takeUntilDestroyed();
   }
 }

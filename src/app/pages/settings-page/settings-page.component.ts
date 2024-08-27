@@ -1,7 +1,8 @@
-import { Component, ViewChild, effect, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ProfileHeaderComponent } from '../../common-ui/profile-header/profile-header.component';
+import { Profile } from '../../data/interfaces/profile.interface';
 import { ProfileService } from '../../data/services/profile.service';
 import { AvatarUploadComponent } from './avatar-upload/avatar-upload.component';
 
@@ -30,37 +31,36 @@ export class SettingsPageComponent {
   constructor() {
     this.loadProfileData();
   }
+  ngOnInit() {
+    this.loadProfileData();
+  }
 
   loadProfileData() {
-    effect(() => {
-      if (this.profileService.me) {
-        const profile = this.profileService.me;
+    // Проверяем, если профиль уже загружен
+    if (this.profileService.me) {
+      this.updateFormWithProfile(this.profileService.me);
+    } else {
+      // Загружаем профиль с сервера, если его еще нет
+      this.profileService.getMe().subscribe({
+        next: (profile) => {
+          this.profileService.me = profile; // Сохраняем профиль в сервисе
+          this.updateFormWithProfile(profile);
+        },
+        error: (err) => {
+          console.error('Error loading profile', err);
+        },
+      });
+    }
+  }
 
-        this.form.patchValue({
-          firstName: profile.name.split(' ')[0] || '',
-          lastName: profile.name.split(' ')[1] || '',
-          username: profile.username,
-          nickname: profile.nickname,
-          description: profile.description,
-          power: profile.power.join(', '), // Преобразование массива в строку
-        });
-      } else {
-        this.profileService.getMe().subscribe({
-          next: (profile) => {
-            this.form.patchValue({
-              firstName: profile.name.split(' ')[0] || '',
-              lastName: profile.name.split(' ')[1] || '',
-              username: profile.username,
-              nickname: profile.nickname,
-              description: profile.description,
-              power: profile.power.join(', '),
-            });
-          },
-          error: (err) => {
-            console.error('Error loading profile', err);
-          },
-        });
-      }
+  updateFormWithProfile(profile: Profile) {
+    this.form.patchValue({
+      firstName: profile.name.split(' ')[0] || '',
+      lastName: profile.name.split(' ')[1] || '',
+      username: profile.username,
+      nickname: profile.nickname,
+      description: profile.description,
+      power: profile.power.join(', '), // Преобразование массива в строку
     });
   }
 

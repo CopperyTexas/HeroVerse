@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Profile } from '../../data/interfaces/profile.interface';
+import { ProfileService } from '../../data/services/profile.service';
 
 @Component({
   standalone: true,
@@ -11,4 +12,5 @@ import { Profile } from '../../data/interfaces/profile.interface';
 })
 export class ProfileHeaderComponent {
   profile = input<Profile>();
+  profileService = inject(ProfileService);
 }

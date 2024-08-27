@@ -1,4 +1,4 @@
-<div *ngIf="profile() as profile; else noProfile">
+<div *ngIf="profileService.me as profile; else noProfile">
   <div class="profile-header">
     <img
       [src]="profile.avatar || '/assets/images/404.svg'"

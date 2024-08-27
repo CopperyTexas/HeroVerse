@@ -2,3 +2,15 @@
   display: grid;
   gap: 20px;
 }
+.not-found-profiles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  font-size: 24px;
+}
+.not-found-img {
+  width: 50%;
+  height: 50%;
+}

@@ -14,4 +14,8 @@ export class SubscriberCardComponent {
   ngOnInit() {
     console.log('Profile data:', this.profile);
   }
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = '/assets/images/404.svg';
+  }
 }

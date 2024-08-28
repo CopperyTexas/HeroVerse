@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { ProfileHeaderComponent } from '../../common-ui/profile-header/profile-header.component';
 import { SubscriberCardComponent } from '../../common-ui/sidebar/subscriber-card/subscriber-card.component';
 import { SvgIconComponent } from '../../common-ui/svg-icon/svg-icon.component';
+import { Profile } from '../../data/interfaces/profile.interface';
 import { ProfileService } from '../../data/services/profile.service';
 import { PostFeedComponent } from './post-feed/post-feed.component';
 
@@ -22,18 +23,41 @@ import { PostFeedComponent } from './post-feed/post-feed.component';
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
 })
-export class ProfilePageComponent {
-  profileService = inject(ProfileService);
-  subscribers$ = this.profileService.getSubscribersShortList(5);
-  route = inject(ActivatedRoute);
-  me$ = this.profileService.getMe();
-  profile$ = this.route.params.pipe(
-    switchMap(({ id }) => {
-      if (id === 'me') return this.me$;
-      return this.profileService.getAccount(id);
+export class ProfilePageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private profileService = inject(ProfileService);
+
+  profile$: Observable<Profile | null> = this.route.paramMap.pipe(
+    switchMap((params) => {
+      const id = params.get('id');
+      return id
+        ? this.profileService.getAccount(id)
+        : this.profileService.getMe();
     })
   );
-  trackById(index: number, subscriber: any): string {
-    return subscriber._id; // Используйте уникальный идентификатор
+  isMyProfile$: Observable<boolean> = this.profile$.pipe(
+    switchMap((profile) =>
+      this.profileService
+        .getMe()
+        .pipe(map((me) => !!profile && !!me && profile._id === me._id))
+    )
+  );
+  subscribers$ = this.profileService.subscribers$; // Используйте подписчиков из сервиса
+
+  ngOnInit() {
+    this.profile$.subscribe((profile) => {
+      if (profile) {
+        this.profileService.subscribeToProfile(profile._id);
+      }
+    });
+  }
+
+  trackById(index: number, profile: Profile): string {
+    return profile._id;
+  }
+
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = '/assets/images/404.svg';
   }
 }

@@ -15,18 +15,30 @@
     </ul>
   </nav>
   <p class="medium-text mb20">Subscribers</p>
+
+  <!-- Список подписчиков, ограниченный 5 -->
   <ng-container *ngIf="subscribers$ | async as subscribers">
-    <ng-container *ngFor="let profile of subscribers; trackBy: trackById">
-      <app-subscriber-card [profile]="profile"></app-subscriber-card>
+    <ng-container *ngIf="subscribers.length > 0; else noSubscribers">
+      <ng-container
+        *ngFor="let profile of subscribers.slice(0, 5); trackBy: trackById"
+      >
+        <app-subscriber-card [profile]="profile"></app-subscriber-card>
+      </ng-container>
     </ng-container>
+    <ng-template #noSubscribers>
+      <p>No subscribers yet.</p>
+    </ng-template>
   </ng-container>
 
+  <!-- Ссылка на всех подписчиков -->
   <div class="mt20 to-subscribers">
-    <a [routerLink]="['/subscribers']" class="to-subscribers-link medium-text"
-      >All subscribers
+    <a [routerLink]="['/subscribers']" class="to-subscribers-link medium-text">
+      All subscribers
       <img src="/assets/icons/arrow.svg" class="to-subscribers-image" alt="" />
     </a>
   </div>
+
+  <!-- Footer с информацией о пользователе -->
   <footer class="sidebar-footer">
     <ng-container *ngIf="me | async as user">
       <img

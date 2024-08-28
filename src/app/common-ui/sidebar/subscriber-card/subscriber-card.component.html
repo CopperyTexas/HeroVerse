@@ -1,6 +1,7 @@
 <ng-container *ngIf="profile">
   <img
     [src]="profile.avatar ? profile.avatar : '/assets/images/404.svg'"
+    (error)="onImageError($event)"
     [alt]="profile.nickname"
     class="subscriber-avatar"
   />

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Pageble } from '../interfaces/pageble.interface';
 import { Profile } from '../interfaces/profile.interface';
@@ -14,12 +14,15 @@ export class ProfileService {
 
   me: Profile | null = null;
   filteredProfiles = signal<Profile[]>([]);
-  subscribers = signal<Profile[]>([]);
+  private subscribersSubject = new BehaviorSubject<Profile[]>([]);
+  subscribers$ = this.subscribersSubject.asObservable();
   constructor() {
     // Вызов getMe в конструкторе может быть, но убедитесь, что это не создаёт проблем с синхронизацией
     this.getMe().subscribe();
   }
-
+  private loadSubscribers() {
+    this.getSubscribersShortList().subscribe();
+  }
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/users`);
   }
@@ -32,6 +35,7 @@ export class ProfileService {
     return this.http.get<Profile>(`${this.baseApiUrl}/account/me`).pipe(
       tap((profile) => {
         this.me = profile;
+        this.loadSubscribers();
       })
     );
   }
@@ -39,7 +43,12 @@ export class ProfileService {
   getSubscribersShortList(subsAmount = 5): Observable<Profile[]> {
     return this.http
       .get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`)
-      .pipe(map((res) => res.items.slice(0, subsAmount)));
+      .pipe(
+        map((res) => res.items.slice(0, subsAmount)),
+        tap((shortList) => {
+          this.subscribersSubject.next(shortList); // Обновляем список подписчиков
+        })
+      );
   }
   patchProfile(profile: Partial<Profile>) {
     return this.http.patch<Profile>(`${this.baseApiUrl}/account/me`, profile);
@@ -93,8 +102,27 @@ export class ProfileService {
     );
   }
   subscribeToProfile(profileId: string): Observable<any> {
-    return this.http.post(`${this.baseApiUrl}/account/subscribe`, {
-      profileId,
-    });
+    return this.http
+      .post(`${this.baseApiUrl}/account/subscribe`, { profileId })
+      .pipe(
+        tap(() => {
+          // Обновляем список подписчиков после успешной подписки
+          this.addNewSubscriber(profileId);
+        })
+      );
+  }
+
+  private addNewSubscriber(profileId: string) {
+    this.http
+      .get<Profile>(`${this.baseApiUrl}/account/${profileId}`)
+      .subscribe({
+        next: (profile) => {
+          const currentSubscribers = this.subscribersSubject.getValue();
+          this.subscribersSubject.next([...currentSubscribers, profile]);
+        },
+        error: (err) => {
+          console.error('Error fetching subscribed profile:', err);
+        },
+      });
   }
 }

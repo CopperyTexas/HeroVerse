@@ -21,7 +21,7 @@ import { SubscriberCardComponent } from './subscriber-card/subscriber-card.compo
 })
 export class SidebarComponent {
   profileService = inject(ProfileService);
-  subscribers$ = this.profileService.getSubscribersShortList();
+  subscribers$ = this.profileService.subscribers$;
   me = this.profileService.getMe();
   menuItems = [
     { label: 'Home page', icon: 'home', link: 'profile/me' },

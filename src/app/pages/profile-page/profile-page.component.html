@@ -1,7 +1,11 @@
 @if(profile$ |async; as profile){
 <header class="profile-page__header">
-  <app-profile-header [profile]="profile"></app-profile-header>
-  <a [routerLink]="['/settings']" class="settings-btn">
+  <app-profile-header></app-profile-header>
+  <a
+    *ngIf="isMyProfile$ | async"
+    [routerLink]="['/settings']"
+    class="settings-btn"
+  >
     Edit
     <svg icon="settings" class="settings-btn-svg"></svg>
   </a>
@@ -17,18 +21,23 @@
           class="subscriber-avatar-btn"
           [routerLink]="['/profile', subscriber._id]"
         >
-          <img [src]="subscriber.avatar" alt="" class="subscriber-avatar-img" />
+          <img
+            [src]="subscriber.avatar"
+            alt=""
+            class="subscriber-avatar-img"
+            (error)="onImageError($event)"
+          />
         </a>
       </div>
       <a class="to-subscribers-search" [routerLink]="['/search']"> </a>
     </div>
-    <h3 class="h6 mb16">Power</h3>
+    <h3 class="h6 mb16">Powers</h3>
     <div class="power-list">
       @for(power of profile.power; track power){
       <div class="skill-tag">{{ power }}</div>
       }
     </div>
-    <h3 class="h6 mb16">About me</h3>
+    <h3 class="h6 mb16">About profile</h3>
     <p class="medium-text">{{ profile.description }}</p>
   </div>
 </main>

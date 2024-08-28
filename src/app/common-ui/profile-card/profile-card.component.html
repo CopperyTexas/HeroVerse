@@ -2,6 +2,7 @@
   <div class="avatar">
     <img
       [src]="profile.avatar ? profile.avatar : '/assets/images/404.svg'"
+      (error)="onImageError($event)"
       alt="avatar"
       class="profile-card__avatar"
     />

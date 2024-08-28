@@ -14,6 +14,7 @@ export class ProfileService {
 
   me: Profile | null = null;
   filteredProfiles = signal<Profile[]>([]);
+  subscribers = signal<Profile[]>([]);
   constructor() {
     // Вызов getMe в конструкторе может быть, но убедитесь, что это не создаёт проблем с синхронизацией
     this.getMe().subscribe();
@@ -35,7 +36,7 @@ export class ProfileService {
     );
   }
 
-  getSubscribersShortList(subsAmount = 3): Observable<Profile[]> {
+  getSubscribersShortList(subsAmount = 5): Observable<Profile[]> {
     return this.http
       .get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`)
       .pipe(map((res) => res.items.slice(0, subsAmount)));

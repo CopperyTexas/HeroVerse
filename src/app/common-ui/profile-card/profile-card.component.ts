@@ -10,6 +10,7 @@ import { ProfileService } from '../../data/services/profile.service';
 @Component({
   selector: 'app-profile-card', // Селектор, используемый для внедрения этого компонента в HTML
   standalone: true, // Указывает, что этот компонент является автономным и не принадлежит какому-либо модулю
+
   imports: [CommonModule], // Импортируем CommonModule для использования директив, таких как *ngIf и *ngFor
   templateUrl: './profile-card.component.html', // Шаблон компонента
   styleUrls: ['./profile-card.component.scss'], // Стили компонента
@@ -20,12 +21,16 @@ export class ProfileCardComponent {
   @Input() profile: Profile | undefined;
   profileService = inject(ProfileService);
   isSubscribed: boolean = false;
-  ngOnInit() {
+  OnInit() {
     // Проверяем, подписан ли текущий пользователь на данный профиль
     this.isSubscribed =
       this.profileService.me?.subscribers.some(
         (sub) => sub._id === this.profile?._id
       ) || false;
+  }
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = '/assets/images/404.svg';
   }
   subscribe() {
     if (this.profile) {

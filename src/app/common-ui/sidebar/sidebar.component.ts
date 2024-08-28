@@ -50,4 +50,8 @@ export class SidebarComponent {
       console.error('Error loading user data:', error);
     }
   }
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = '/assets/images/404.svg';
+  }
 }

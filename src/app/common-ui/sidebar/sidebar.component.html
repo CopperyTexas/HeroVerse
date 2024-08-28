@@ -34,7 +34,12 @@
   <div class="mt20 to-subscribers">
     <a [routerLink]="['/subscribers']" class="to-subscribers-link medium-text">
       All subscribers
-      <img src="/assets/icons/arrow.svg" class="to-subscribers-image" alt="" />
+      <img
+        src="/assets/icons/arrow.svg"
+        class="to-subscribers-image"
+        alt=""
+        (error)="onImageError($event)"
+      />
     </a>
   </div>
 
@@ -45,6 +50,7 @@
         [src]="user.avatar ? user.avatar : '/assets/images/404.svg'"
         alt=""
         class="sidebar-footer__image"
+        (error)="onImageError($event)"
       />
       <strong>{{ user.name }} </strong>
     </ng-container>

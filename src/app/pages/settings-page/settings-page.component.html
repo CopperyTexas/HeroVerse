@@ -37,8 +37,11 @@
     </label>
   </div>
   <div>
-    <div>
-      <button class="btn" (click)="onSave()" type="button">Save</button>
+    <div class="btn-wrapper">
+      <button class="btn logout" (click)="onLogout()">
+        <svg icon="logout" class="logout-svg"></svg>
+      </button>
+      <button class="btn save" (click)="onSave()" type="button">Save</button>
     </div>
   </div>
 </form>

@@ -25,3 +25,28 @@
   justify-content: space-between;
   height: calc(100dvh - 24px);
 }
+.btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logout {
+  width: 70px;
+  height: 50px;
+  color: var(--light-color);
+  box-shadow: none;
+  &:hover .logout-svg {
+    color: var(--dark-color);
+  }
+}
+.logout-svg {
+  transition: all 0.4s ease;
+  width: 40px;
+  height: 40px;
+  color: var(--light-color);
+}
+.save {
+  width: 80px;
+  height: 50px;
+  box-shadow: none;
+}

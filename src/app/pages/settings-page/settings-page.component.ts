@@ -1,7 +1,9 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
 import { ProfileHeaderComponent } from '../../common-ui/profile-header/profile-header.component';
+import { SvgIconComponent } from '../../common-ui/svg-icon/svg-icon.component';
 import { Profile } from '../../data/interfaces/profile.interface';
 import { ProfileService } from '../../data/services/profile.service';
 import { AvatarUploadComponent } from './avatar-upload/avatar-upload.component';
@@ -9,14 +11,19 @@ import { AvatarUploadComponent } from './avatar-upload/avatar-upload.component';
 @Component({
   selector: 'app-settings-page',
   standalone: true,
-  imports: [ProfileHeaderComponent, ReactiveFormsModule, AvatarUploadComponent],
+  imports: [
+    ProfileHeaderComponent,
+    ReactiveFormsModule,
+    AvatarUploadComponent,
+    SvgIconComponent,
+  ],
   templateUrl: './settings-page.component.html',
   styleUrls: ['./settings-page.component.scss'],
 })
 export class SettingsPageComponent {
   fb = inject(FormBuilder);
   profileService = inject(ProfileService);
-
+  private authService = inject(AuthService);
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;
 
   form = this.fb.group({
@@ -34,7 +41,9 @@ export class SettingsPageComponent {
   ngOnInit() {
     this.loadProfileData();
   }
-
+  onLogout() {
+    this.authService.logout();
+  }
   loadProfileData() {
     // Проверяем, если профиль уже загружен
     if (this.profileService.me) {

@@ -31,22 +31,35 @@
   align-items: center;
 }
 .logout {
-  width: 70px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   color: var(--light-color);
   box-shadow: none;
+  padding: 0;
   &:hover .logout-svg {
     color: var(--dark-color);
   }
 }
 .logout-svg {
   transition: all 0.4s ease;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   color: var(--light-color);
 }
 .save {
   width: 80px;
-  height: 50px;
+  height: 40px;
+  padding: 0;
   box-shadow: none;
+}
+.delete-svg {
+  width: 20px;
+  height: 20px;
+}
+.delete {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  box-shadow: none;
+  margin-left: 20px;
 }

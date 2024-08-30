@@ -23,6 +23,17 @@ export class ProfileService {
   private loadSubscribers() {
     this.getSubscribersShortList().subscribe();
   }
+  updateSubscribers() {
+    this.getSubscribersShortList().subscribe((subscribers) => {
+      this.subscribersSubject.next(subscribers);
+    });
+  }
+  getTotalSubscribersCount(): Observable<number> {
+    return this.http
+      .get<Profile[]>(`${this.baseApiUrl}/account/subscribers`)
+      .pipe(tap((subscribers) => this.subscribersSubject.next(subscribers)))
+      .pipe(map((subscribers) => subscribers.length)); // Возвращаем только количество подписчиков
+  }
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/users`);
   }

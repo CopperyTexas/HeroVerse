@@ -23,6 +23,7 @@ export class SidebarComponent {
   profileService = inject(ProfileService);
   subscribers$ = this.profileService.subscribers$;
   me = this.profileService.getMe();
+  totalSubscribers: number = 0;
   menuItems = [
     { label: 'Home page', icon: 'home', link: 'profile/me' },
     { label: 'Chats', icon: 'message', link: 'chats' },
@@ -33,13 +34,19 @@ export class SidebarComponent {
     return profile._id; // Возвращаем строковый идентификатор профиля для отслеживания изменений
   }
   ngOnInit() {
-    console.log('ngOnInit');
-    firstValueFrom(this.profileService.getMe());
-    this.subscribers$.subscribe({
-      next: (data) => console.log('Loaded subscribers:', data),
-      error: (err) => console.error('Error loading subscribers:', err),
-    });
+    // Загружаем данные пользователя
     this.loadUserData();
+
+    // Обновляем количество подписчиков
+    this.profileService.getTotalSubscribersCount().subscribe({
+      next: (count) => {
+        console.log('Total subscribers count:', count);
+        this.totalSubscribers = count;
+      },
+      error: (err) => {
+        console.error('Error loading total subscribers count:', err);
+      },
+    });
   }
 
   async loadUserData() {

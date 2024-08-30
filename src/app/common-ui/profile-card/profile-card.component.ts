@@ -40,7 +40,9 @@ export class ProfileCardComponent {
           console.log('Successfully subscribed:', response);
           // Обновите состояние компонента, если необходимо (например, изменить текст кнопки)
           this.isSubscribed = true;
+          this.updateSubscriberCount();
         },
+
         error: (err) => {
           console.error('Error subscribing to profile:', err);
         },
@@ -56,5 +58,19 @@ export class ProfileCardComponent {
     return this.profile
       ? `${environment.assetsUrl}/${this.profile.avatar}`
       : '';
+  }
+  // Метод для обновления количества подписчиков
+  updateSubscriberCount() {
+    if (this.profile) {
+      this.profileService.getMe().subscribe({
+        next: (profile) => {
+          this.profileService.me = profile; // Обновляем данные текущего пользователя в сервисе
+          console.log('Updated subscriber count:', profile.subscribers.length);
+        },
+        error: (err) => {
+          console.error('Error updating subscriber count:', err);
+        },
+      });
+    }
   }
 }

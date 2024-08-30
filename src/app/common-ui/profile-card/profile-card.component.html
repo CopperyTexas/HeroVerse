@@ -1,11 +1,14 @@
 <div class="profile-card" *ngIf="profile; else loading">
   <div class="avatar">
-    <img
-      [src]="profile.avatar ? profile.avatar : '/assets/images/404.svg'"
-      (error)="onImageError($event)"
-      alt="avatar"
-      class="profile-card__avatar"
-    />
+    <div class="avatar-container">
+      <img
+        [src]="profile.avatar ? profile.avatar : '/assets/images/404.svg'"
+        (error)="onImageError($event)"
+        alt="avatar"
+        class="profile-card__avatar"
+      />
+    </div>
+
     <div class="profile-card__name">
       <strong class="h6">{{ profile.name }}</strong>
       <span class="subtitle">{{ profile.nickname }}</span>

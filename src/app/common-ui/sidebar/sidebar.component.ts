@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Profile } from '../../data/interfaces/profile.interface';
@@ -23,6 +23,7 @@ export class SidebarComponent {
   profileService = inject(ProfileService);
   subscribers$ = this.profileService.subscribers$;
   me = this.profileService.getMe();
+  constructor(private cdr: ChangeDetectorRef) {}
   totalSubscribers: number = 0;
   menuItems = [
     { label: 'Home page', icon: 'home', link: 'profile/me' },
@@ -34,14 +35,11 @@ export class SidebarComponent {
     return profile._id; // Возвращаем строковый идентификатор профиля для отслеживания изменений
   }
   ngOnInit() {
-    // Загружаем данные пользователя
-    this.loadUserData();
-
-    // Обновляем количество подписчиков
     this.profileService.getTotalSubscribersCount().subscribe({
       next: (count) => {
-        console.log('Total subscribers count:', count);
+        console.log('Total subscribers count received:', count);
         this.totalSubscribers = count;
+        this.cdr.detectChanges(); // Принудительно проверяем изменения
       },
       error: (err) => {
         console.error('Error loading total subscribers count:', err);

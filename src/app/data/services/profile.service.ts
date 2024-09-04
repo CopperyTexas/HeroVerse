@@ -31,9 +31,14 @@ export class ProfileService {
   getTotalSubscribersCount(): Observable<number> {
     return this.http
       .get<Profile[]>(`${this.baseApiUrl}/account/subscribers`)
-      .pipe(tap((subscribers) => this.subscribersSubject.next(subscribers)))
-      .pipe(map((subscribers) => subscribers.length)); // Возвращаем только количество подписчиков
+      .pipe(
+        map((subscribers) => {
+          console.log('Subscribers fetched:', subscribers);
+          return subscribers.length;
+        })
+      );
   }
+
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/users`);
   }

@@ -16,6 +16,7 @@ export class ProfileService {
   filteredProfiles = signal<Profile[]>([]);
   private subscribersSubject = new BehaviorSubject<Profile[]>([]);
   subscribers$ = this.subscribersSubject.asObservable();
+
   constructor() {
     // Вызов getMe в конструкторе может быть, но убедитесь, что это не создаёт проблем с синхронизацией
     this.getMe().subscribe();
@@ -31,14 +32,9 @@ export class ProfileService {
   getTotalSubscribersCount(): Observable<number> {
     return this.http
       .get<Profile[]>(`${this.baseApiUrl}/account/subscribers`)
-      .pipe(
-        map((subscribers) => {
-          console.log('Subscribers fetched:', subscribers);
-          return subscribers.length;
-        })
-      );
+      .pipe(tap((subscribers) => this.subscribersSubject.next(subscribers)))
+      .pipe(map((subscribers) => subscribers.length)); // Возвращаем только количество подписчиков
   }
-
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/users`);
   }
@@ -55,7 +51,13 @@ export class ProfileService {
       })
     );
   }
-
+  getSubscribersLongList(): Observable<Profile[]> {
+    return this.http
+      .get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`, {
+        params: new HttpParams().set('size', '1000'), // Устанавливаем большое значение для получения всех подписчиков
+      })
+      .pipe(map((res) => res.items));
+  }
   getSubscribersShortList(subsAmount = 5): Observable<Profile[]> {
     return this.http
       .get<Pageble<Profile>>(`${this.baseApiUrl}/account/subscribers`)
@@ -124,6 +126,16 @@ export class ProfileService {
         tap(() => {
           // Обновляем список подписчиков после успешной подписки
           this.addNewSubscriber(profileId);
+        })
+      );
+  }
+  unsubscribeFromProfile(profileId: string): Observable<any> {
+    return this.http
+      .post(`${this.baseApiUrl}/account/unsubscribe`, { profileId })
+      .pipe(
+        tap(() => {
+          // Обновляем список подписчиков после успешной отписки
+          this.updateSubscribers();
         })
       );
   }

@@ -1,0 +1,29 @@
+<div class="subscribers-page">
+  <h2 class="subscribers-head">All Subscribers</h2>
+
+  <div *ngIf="subscribers$ | async as subscribers">
+    <div
+      *ngIf="subscribers.length > 0; else noSubscribers"
+      class="profile-card__wrapper"
+    >
+      <div *ngFor="let subscriber of subscribers; trackBy: trackById">
+        <app-profile-card
+          [profile]="subscriber"
+          [isSubscribed]="true"
+          (cardRemoved)="onCardRemoved($event)"
+        ></app-profile-card>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noSubscribers>
+    <div class="no-subscriber-wrapper">
+      <p class="no-subscriber-text">Try to subscribe to someone</p>
+      <img
+        src="/assets/images/Subscriber-pana.svg"
+        alt=""
+        class="no-subscriber-img"
+      />
+    </div>
+  </ng-template>
+</div>

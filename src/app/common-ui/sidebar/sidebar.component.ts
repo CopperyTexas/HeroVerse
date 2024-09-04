@@ -24,7 +24,6 @@ export class SidebarComponent {
   subscribers$ = this.profileService.subscribers$;
   me = this.profileService.getMe();
   constructor(private cdr: ChangeDetectorRef) {}
-  totalSubscribers: number = 0;
   menuItems = [
     { label: 'Home page', icon: 'home', link: 'profile/me' },
     { label: 'Chats', icon: 'message', link: 'chats' },
@@ -34,18 +33,7 @@ export class SidebarComponent {
   trackById(index: number, profile: Profile): string {
     return profile._id; // Возвращаем строковый идентификатор профиля для отслеживания изменений
   }
-  ngOnInit() {
-    this.profileService.getTotalSubscribersCount().subscribe({
-      next: (count) => {
-        console.log('Total subscribers count received:', count);
-        this.totalSubscribers = count;
-        this.cdr.detectChanges(); // Принудительно проверяем изменения
-      },
-      error: (err) => {
-        console.error('Error loading total subscribers count:', err);
-      },
-    });
-  }
+  ngOnInit() {}
 
   async loadUserData() {
     try {

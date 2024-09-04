@@ -1,76 +1,81 @@
-// Импортируем необходимые модули и интерфейсы
-import { CommonModule } from '@angular/common'; // Модуль, предоставляющий общие директивы, такие как *ngIf и *ngFor
-import { Component, inject, Input } from '@angular/core'; // Импортируем Component для создания компонента и Input для передачи данных в компонент
-import { environment } from '../../../environments/environment'; // Импортируем объект environment для доступа к переменным окружения
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Profile } from '../../data/interfaces/profile.interface';
 import { ProfileService } from '../../data/services/profile.service';
-// Импортируем интерфейс Profile для типизации данных профилей
 
-// Декоратор @Component указывает, что это класс компонента
 @Component({
-  selector: 'app-profile-card', // Селектор, используемый для внедрения этого компонента в HTML
-  standalone: true, // Указывает, что этот компонент является автономным и не принадлежит какому-либо модулю
-
-  imports: [CommonModule], // Импортируем CommonModule для использования директив, таких как *ngIf и *ngFor
-  templateUrl: './profile-card.component.html', // Шаблон компонента
-  styleUrls: ['./profile-card.component.scss'], // Стили компонента
+  selector: 'app-profile-card',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './profile-card.component.html',
+  styleUrls: ['./profile-card.component.scss'],
 })
-export class ProfileCardComponent {
-  [x: string]: any;
-  // @Input() декоратор используется для получения данных из родительского компонента
+export class ProfileCardComponent implements OnInit {
   @Input() profile: Profile | undefined;
   profileService = inject(ProfileService);
-  isSubscribed: boolean = false;
-  OnInit() {
-    // Проверяем, подписан ли текущий пользователь на данный профиль
-    this.isSubscribed =
-      this.profileService.me?.subscribers.some(
-        (sub) => sub._id === this.profile?._id
-      ) || false;
+  @Input() isSubscribed: boolean = false; // Устанавливаем true, так как мы предполагаем, что пользователь уже подписан
+  @Output() cardRemoved = new EventEmitter<string>();
+
+  ngOnInit() {}
+
+  toggleSubscription(): void {
+    if (this.isSubscribed) {
+      this.unsubscribe();
+    } else {
+      this.subscribe();
+    }
   }
+
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
     target.src = '/assets/images/404.svg';
   }
+
   subscribe() {
     if (this.profile) {
-      // Проверяем, что profile не undefined
       this.profileService.subscribeToProfile(this.profile._id).subscribe({
-        next: (response) => {
-          console.log('Successfully subscribed:', response);
-          // Обновите состояние компонента, если необходимо (например, изменить текст кнопки)
+        next: () => {
           this.isSubscribed = true;
-          this.updateSubscriberCount();
+          this.profileService.updateSubscribers();
+          setTimeout(() => {
+            this.cardRemoved.emit(this.profile?._id);
+          }, 300);
         },
-
         error: (err) => {
           console.error('Error subscribing to profile:', err);
         },
       });
-    } else {
-      console.error('Profile is undefined');
     }
   }
-  // Метод для получения полного URL аватара профиля
-  get avatarUrl(): string {
-    // Если профиль определен, формируем URL аватара с использованием переменной окружения
-    // В противном случае возвращаем пустую строку
-    return this.profile
-      ? `${environment.assetsUrl}/${this.profile.avatar}`
-      : '';
-  }
-  // Метод для обновления количества подписчиков
-  updateSubscriberCount() {
+
+  unsubscribe() {
     if (this.profile) {
-      this.profileService.getMe().subscribe({
-        next: (profile) => {
-          this.profileService.me = profile; // Обновляем данные текущего пользователя в сервисе
-          console.log('Updated subscriber count:', profile.subscribers.length);
+      this.profileService.unsubscribeFromProfile(this.profile._id).subscribe({
+        next: () => {
+          this.isSubscribed = false;
+          this.profileService.updateSubscribers();
+          setTimeout(() => {
+            this.cardRemoved.emit(this.profile?._id);
+          }, 300);
         },
         error: (err) => {
-          console.error('Error updating subscriber count:', err);
+          console.error('Error unsubscribing from profile:', err);
         },
       });
     }
+  }
+
+  get avatarUrl(): string {
+    return this.profile
+      ? `${environment.assetsUrl}/${this.profile.avatar}`
+      : '';
   }
 }

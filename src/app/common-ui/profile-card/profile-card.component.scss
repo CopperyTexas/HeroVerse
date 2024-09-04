@@ -43,3 +43,21 @@
   display: flex;
   justify-content: center;
 }
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.profile-card {
+  transition: all 0.3s ease-in-out;
+
+  &.slide-out-left {
+    animation: slideOutLeft 0.3s forwards;
+  }
+}

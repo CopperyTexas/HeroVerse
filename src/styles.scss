@@ -94,7 +94,7 @@ body {
   border: 2px solid var(--light-color);
   cursor: pointer;
   text-align: center;
-  width: 50%;
+  width: 60%;
   box-shadow: 4px 4px 4px rgba(248, 248, 248, 0.8);
   transition: 0.4s ease;
   &:hover {
@@ -118,7 +118,6 @@ body {
     color: var(--dark-color);
     border: 2px solid var(--dark-color);
     box-shadow: 4px 4px 4px rgba(34, 33, 33, 0.8);
-    cursor: not-allowed;
   }
   &.subscribed {
     cursor: default;

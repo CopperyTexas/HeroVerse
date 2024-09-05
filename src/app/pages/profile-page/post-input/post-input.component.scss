@@ -1,0 +1,39 @@
+:host {
+  display: grid;
+  padding: 16px;
+  background: var(--dark-color);
+  border: 2px solid var(--light-color);
+  border-radius: 6px;
+  grid-template-columns: 32px 1fr 44px;
+  gap: 12px;
+}
+.hidden-textarea {
+  resize: none;
+  background: var(--dark-color);
+  border: none;
+  color: var(--light-color);
+  border-radius: 6px;
+  padding: 8px;
+
+  &:hover,
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+  }
+}
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--dark-color);
+  background: var(--primary-color);
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid var(--light-color);
+  }
+}
+.send-image {
+  width: 30px;
+  height: 30px;
+}

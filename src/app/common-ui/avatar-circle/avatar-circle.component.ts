@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { Profile } from '../../data/interfaces/profile.interface';
@@ -15,9 +15,8 @@ import { ProfileService } from '../../data/services/profile.service';
 export class AvatarCircleComponent implements OnInit {
   me: Profile | null = null;
   private route = inject(ActivatedRoute);
-
   constructor(private profileService: ProfileService) {}
-
+  @Input() avatar!: string; // Принимаем ссылку на аватар
   ngOnInit(): void {
     this.me = this.profileService.me;
   }

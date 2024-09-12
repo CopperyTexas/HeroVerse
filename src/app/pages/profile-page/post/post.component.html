@@ -1,1 +1,4 @@
-<p>post works!</p>
+<div *ngIf="profile">
+  <app-avatar-circle [avatar]="post.authorId.avatar"></app-avatar-circle>
+</div>
+<p>{{ post.content }}</p>

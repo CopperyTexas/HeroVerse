@@ -1,5 +1,9 @@
 <app-avatar-circle> </app-avatar-circle>
-<textarea class="hidden-textarea" (input)="onTextAreaInput($event)"></textarea>
-<button class="btn-icon">
+<textarea
+  [(ngModel)]="postText"
+  class="hidden-textarea"
+  (input)="onTextAreaInput($event)"
+></textarea>
+<button class="btn-icon" (click)="onCreatePost()">
   <img src="/assets/icons/send-message.svg" alt="" class="send-image" />
 </button>

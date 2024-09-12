@@ -1,0 +1,8 @@
+:host {
+  background: var(--dark-color);
+  border: 2px solid var(--light-color);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+}

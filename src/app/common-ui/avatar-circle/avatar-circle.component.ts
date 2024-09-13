@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { Profile } from '../../data/interfaces/profile.interface';
 import { ProfileService } from '../../data/services/profile.service';
 
@@ -13,19 +11,21 @@ import { ProfileService } from '../../data/services/profile.service';
   styleUrl: './avatar-circle.component.scss',
 })
 export class AvatarCircleComponent implements OnInit {
-  me: Profile | null = null;
-  private route = inject(ActivatedRoute);
+  @Input() avatar?: string; // Делаем avatar опциональным
+  defaultAvatar = '/assets/images/404.svg';
+  currentUserAvatar?: string;
+
   constructor(private profileService: ProfileService) {}
-  @Input() avatar!: string; // Принимаем ссылку на аватар
+
   ngOnInit(): void {
-    this.me = this.profileService.me;
+    if (!this.avatar) {
+      // Если avatar не передан, используем аватар текущего пользователя
+      const me: Profile | null = this.profileService.me;
+      if (me && me.avatar) {
+        this.currentUserAvatar = me.avatar;
+      } else {
+        this.currentUserAvatar = this.defaultAvatar;
+      }
+    }
   }
-  profile$: Observable<Profile | null> = this.route.paramMap.pipe(
-    switchMap((params) => {
-      const id = params.get('id');
-      return id
-        ? this.profileService.getAccount(id)
-        : this.profileService.getMe();
-    })
-  );
 }

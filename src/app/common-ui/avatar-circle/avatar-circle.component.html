@@ -1,6 +1,5 @@
-<div *ngIf="profile$ | async as profile; else noProfile">
-  <img [src]="profile.avatar" alt="" class="avatar-image" />
-</div>
-<ng-template #noProfile>
-  <img [src]="'/assets/images/404.svg'" alt="" />
-</ng-template>
+<img
+  [src]="avatar || currentUserAvatar || defaultAvatar"
+  alt="Avatar"
+  class="avatar-image"
+/>

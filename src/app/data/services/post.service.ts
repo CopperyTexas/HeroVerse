@@ -20,10 +20,14 @@ export class PostService {
   }
 
   fetchPosts(): Observable<Post[]> {
-    return this.#http
-      .get<Post[]>(`${this.baseApiUrl}/post`)
-      .pipe(tap((res) => this.posts.set(res))); // Обновляем сигнал posts
+    return this.#http.get<Post[]>(`${this.baseApiUrl}/post`).pipe(
+      tap((res) => {
+        console.log('Полученные посты:', res);
+        this.posts.set(res);
+      })
+    );
   }
+
   // Метод для получения профиля по authorId
   getProfile(authorId: string): Observable<Profile> {
     return this.#http.get<Profile>(`${this.baseApiUrl}/account/${authorId}`);

@@ -1,4 +1,8 @@
 <app-post-input></app-post-input>
-<div *ngFor="let post of feed(); trackBy: trackByPostId">
-  <app-post [post]="post"></app-post>
+<div class="post-wrapper">
+  <div class="post-list">
+    <div *ngFor="let post of feed(); trackBy: trackByPostId" class="post-item">
+      <app-post [post]="post"></app-post>
+    </div>
+  </div>
 </div>

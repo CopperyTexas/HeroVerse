@@ -3,6 +3,9 @@
   border: 2px solid var(--light-color);
   padding: 20px;
   display: grid;
-  grid-template-columns: 40px 1fr;
+  grid-template-columns: 44px 1fr;
   gap: 16px;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
 }

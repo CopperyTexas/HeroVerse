@@ -8,6 +8,7 @@ import { SvgIconComponent } from '../../common-ui/svg-icon/svg-icon.component';
 import { Profile } from '../../data/interfaces/profile.interface';
 import { ProfileService } from '../../data/services/profile.service';
 import { PostFeedComponent } from './post-feed/post-feed.component';
+import { PostInputComponent } from './post-input/post-input.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -19,6 +20,7 @@ import { PostFeedComponent } from './post-feed/post-feed.component';
     SvgIconComponent,
     SubscriberCardComponent,
     PostFeedComponent,
+    PostInputComponent,
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',

@@ -1,0 +1,13 @@
+.post-wrapper {
+  max-height: 74dvh;
+  overflow-y: auto;
+}
+
+.post-list {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  min-height: 100%;
+}

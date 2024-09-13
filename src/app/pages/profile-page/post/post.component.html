@@ -1,4 +1,4 @@
-<div *ngIf="profile">
+<div *ngIf="post?.authorId">
   <app-avatar-circle [avatar]="post.authorId.avatar"></app-avatar-circle>
 </div>
 <p>{{ post.content }}</p>
